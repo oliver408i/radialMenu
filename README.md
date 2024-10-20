@@ -1,5 +1,7 @@
 # MacOS Radial App Switcher
 This small python-based app implements an alternative to the command+tab linear app switcher built in to MacOS. Instead it offers a radial verion of the app switcher, heavily inspired by the Satisfactory video game's radial menus.
+<img width="1920" alt="image" src="https://github.com/user-attachments/assets/6056baaf-ef0b-4d08-b93a-b26b2f4206c5">
+
 ## Using
 You can download the prebuilt app from the releases section, but I highly recommend building it yourself to avoid security and anti-virus issues (since it isn't signed).  
 The app will request for accessibility permissions on first run (this is required for global keybinds to work). If your keybind isn't working, try setting the keybind again by using the menu bar text/icon.  
