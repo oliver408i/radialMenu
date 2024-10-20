@@ -83,13 +83,13 @@ def eventTapCallback(proxy, type_, event, refcon):
         if type_ == Quartz.kCGEventKeyDown:
             # Call the showRadialMenu method of AppDelegate
             if app_delegate and not is_menu_open:
-                print("Global hotkey pressed!")
+                #print("Global hotkey pressed!")
                 is_menu_open = True
                 AppHelper.callAfter(app_delegate.showRadialMenu)
             return None  # Consume the event
     elif type_ == Quartz.kCGEventKeyUp and is_menu_open:
         if app_delegate:
-            print("Global hotkey released!")
+            #print("Global hotkey released!")
             is_menu_open = False
             AppHelper.callAfter(app_delegate.hideRadialMenu)
             return None
@@ -122,7 +122,7 @@ def setupGlobalKeybindListener():
     Quartz.CFRunLoopAddSource(Quartz.CFRunLoopGetCurrent(), run_loop_source, Quartz.kCFRunLoopCommonModes)
     Quartz.CGEventTapEnable(event_tap, True)
 
-    print("Global keybind listener set up.")
+    #print("Global keybind listener set up.")
     return event_tap
 
 class AppDelegate(NSObject):
@@ -204,18 +204,18 @@ class AppDelegate(NSObject):
     def changeHotkey_(self, sender):
         new_hotkey = sender.representedObject()
         settings["hotkey"] = new_hotkey
-        print(f"Hotkey changed to: {new_hotkey}")
+        #print(f"Hotkey changed to: {new_hotkey}")
         saveSettings()
 
     def changeMenubarTitle_(self, sender):
         new_title = sender.representedObject()
         settings["menubarTitle"] = new_title
         self.updateMenubarTitle()
-        print(f"Menubar title changed to: {new_title}")
+        #print(f"Menubar title changed to: {new_title}")
 
     def showRadialMenu(self):
         try:
-            print("Showing radial menu")
+            #print("Showing radial menu")
             screenFrame = NSScreen.mainScreen().frame()
             self.overlayWindow = OverlayPanel.alloc().initWithContentRect_styleMask_backing_defer_(
                 screenFrame,
@@ -237,10 +237,11 @@ class AppDelegate(NSObject):
             self.overlayWindow.makeFirstResponder_(contentView)
             NSCursor.hide()
         except Exception as e:
-            print("Exception in showRadialMenu:", e)
+            #print("Exception in showRadialMenu:", e)
+            pass
 
     def hideRadialMenu(self):
-        print("Hiding radial menu")
+        #print("Hiding radial menu")
         if self.overlayWindow:
             selectedApp = self.overlayWindow.contentView().selectedApp
             if selectedApp:
@@ -254,7 +255,7 @@ class AppDelegate(NSObject):
         if self.eventTap:
             Quartz.CFMachPortInvalidate(self.eventTap)
             self.eventTap = None
-        print("Event tap removed.")
+        #print("Event tap removed.")
 
 if __name__ == "__main__":
     app = NSApplication.sharedApplication()
