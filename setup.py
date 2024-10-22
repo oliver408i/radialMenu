@@ -10,7 +10,6 @@ from setuptools import setup
 APP = ['radialmenu.py']
 DATA_FILES = []
 OPTIONS = {
-    'plist': {"LSUIElement": True},
     'iconfile': 'AppIcon.icns',
     'excludes': ['setuptools'] # Prevents setuptools from breaking the build in environments
 }

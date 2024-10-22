@@ -4,6 +4,7 @@ from Cocoa import (
     NSApplication,
     NSApp,
     NSAlert,
+    NSAlertStyleWarning,
     NSWindowStyleMaskBorderless,
     NSBackingStoreBuffered,
     NSColor,
@@ -110,6 +111,7 @@ def setupGlobalKeybindListener():
 
     if not event_tap:
         alert = NSAlert.alloc().init()
+        alert.setAlertStyle_(NSAlertStyleWarning)
         alert.setMessageText_("Failed to create event tap!")
         alert.setInformativeText_("If you haven't yet, enable Accessibility permissions in System Preferences for this app (to record global key presses)!")
         alert.addButtonWithTitle_("OK")
@@ -131,7 +133,6 @@ class AppDelegate(NSObject):
     eventTap = None
 
     def applicationDidFinishLaunching_(self, notification):
-        NSApp.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
         NSApp.setPresentationOptions_(NSApplicationPresentationHideDock)
         
         # Setup the global keybind listener using external function
@@ -247,6 +248,7 @@ class AppDelegate(NSObject):
             if selectedApp:
                 selectedApp.activateWithOptions_(NSApplicationActivateAllWindows)
             self.overlayWindow.orderOut_(None)
+            self.overlayWindow.close()
             self.overlayWindow = None
 
             NSCursor.unhide()
@@ -257,10 +259,10 @@ class AppDelegate(NSObject):
             self.eventTap = None
         #print("Event tap removed.")
 
-if __name__ == "__main__":
-    app = NSApplication.sharedApplication()
-    delegate = AppDelegate.alloc().init()
-    # Store reference to the app delegate globally
-    app_delegate = delegate
-    app.setDelegate_(delegate)
-    AppHelper.runEventLoop()
+app = NSApplication.sharedApplication()
+NSApp.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
+delegate = AppDelegate.alloc().init()
+# Store reference to the app delegate globally
+app_delegate = delegate
+app.setDelegate_(delegate)
+AppHelper.runEventLoop()
