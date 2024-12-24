@@ -5,6 +5,7 @@ from Cocoa import (
     NSApp,
     NSAlert,
     NSAlertStyleWarning,
+    NSEvent,
     NSWindowStyleMaskBorderless,
     NSBackingStoreBuffered,
     NSColor,
@@ -236,6 +237,8 @@ class AppDelegate(NSObject):
             self.overlayWindow.makeKeyAndOrderFront_(None)
             self.overlayWindow.becomeKeyWindow()
             self.overlayWindow.makeFirstResponder_(contentView)
+
+            contentView.updateSelectionForLocation_(NSEvent.mouseLocation())
             NSCursor.hide()
         except Exception as e:
             #print("Exception in showRadialMenu:", e)

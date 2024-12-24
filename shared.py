@@ -253,6 +253,27 @@ class RadialMenuView(NSView):
         except Exception as e:
             print("Exception in mouseMoved_:", e)
     
+    def updateSelectionForLocation_(self, location):
+        try:
+            location = self.convertPoint_fromView_(location, None)
+            center = NSPoint(self.bounds().size.width / 2, self.bounds().size.height / 2)
+            dx = location.x - center.x
+            dy = location.y - center.y
+
+            angle = math.degrees(math.atan2(dy, dx))
+            angle = (angle + 360) % 360  # Normalize angle to [0, 360)
+
+            numApps = len(self.apps)
+            sectorAngle = 360.0 / numApps
+            index = int((angle + 90) % 360 // sectorAngle)
+            if 0 <= index < numApps:
+                if self.selectedApp != self.apps[index]:
+                    self.selectedApp = self.apps[index]
+                    self.setNeedsDisplay_(True)
+            self.setNeedsDisplay_(True)  # Redraw to update the arrow position
+        except Exception as e:
+            print("Exception in updateSelectionForLocation:", e)
+
     def keyDown_(self, event):
         pass
 
